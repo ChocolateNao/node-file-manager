@@ -1,0 +1,13 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "The solution for the second-week task of RSScool Node.js course",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "keywords": [],
+  "author": "ChocolateNao",
+  "license": "ISC"
+}
