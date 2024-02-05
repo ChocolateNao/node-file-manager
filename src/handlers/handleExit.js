@@ -1,4 +1,5 @@
 import { args } from "../../index.js";
+import { rl } from "../../index.js";
 
 const exit = () => {
   const { username } = args;
@@ -6,4 +7,9 @@ const exit = () => {
   process.exitCode = 0;
 };
 
-export { exit };
+const handleExit = () => {
+  rl.pause();
+  exit();
+};
+
+export { handleExit };
