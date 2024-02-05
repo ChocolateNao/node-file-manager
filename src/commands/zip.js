@@ -5,6 +5,7 @@ import { createWriteStream } from 'node:fs';
 import { pipeline } from 'stream';
 
 import { handleOperationFail } from '../handlers/handleCommand.js';
+import { workingDir } from '../../index.js';
 
 const compress = async (args) => {
   try {
@@ -19,7 +20,7 @@ const compress = async (args) => {
       archivePath = path.isAbsolute(args[1]) ? args[1] : path.join(workingDir, args[1]);
       const archivePathStats = await fs.stat(archivePath);
       if (archivePathStats.isDirectory()) {
-        archivePath = path.join(archivePath, 'archive.br');
+        archivePath = path.join(archivePath, `${path.basename(filePath)}.br`);
         await fs.writeFile(archivePath, '');
       }
     }
@@ -52,17 +53,15 @@ const decompress = async (args) => {
       handleOperationFail('wrong file extension');
       return;
     }
-    let fileDir = null;
+    let fileDir = path.isAbsolute(args[1]) ? args[1] : path.join(workingDir, args[1] ? args[1] : '');
 
-    if (args.length > 1) {
-      fileDir = path.isAbsolute(args[1]) ? args[1] : path.join(workingDir, args[1]);
-      const archivePathStats = await fs.stat(fileDir);
-      if (archivePathStats.isDirectory()) {
-        fileName = path.basename(archivePath).slice(0, -3);
-        fileDir = path.join(fileDir, fileName);
-        await fs.writeFile(fileDir, '');
-      }
+    const archivePathStats = await fs.stat(fileDir);
+    if (archivePathStats.isDirectory()) {
+      const nameFile = path.basename(archivePath).slice(0, -3);
+      fileDir = path.join(fileDir, nameFile);
+      await fs.writeFile(fileDir, '');
     }
+
 
     if (!fileDir) {
       fileDir = archivePath.replace('.br', '');
