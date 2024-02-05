@@ -5,6 +5,7 @@
 ## Usage
 
 The program can be started using an npm command:
-`bash
+
+```bash
 npm run start -- --username=your_username
-`
+```
