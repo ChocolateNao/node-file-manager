@@ -1,5 +1,6 @@
 import { parseArgs } from "../utils/args/parseArgs.js";
 import { cpus, eol, homedir, username, architecture } from "../commands/os.js";
+import colors from "../utils/cliColors.js";
 
 const handleOs = (args) => {
   if (!args) {
@@ -9,7 +10,7 @@ const handleOs = (args) => {
 
   const argKeys = Object.keys(parseArgs(args));
   if (argKeys.length > 1) {
-    console.log(`Too many arguments. Only 1 is allowed, got ${argKeys.length}`);
+    console.error(colors.red(`Invalid input: only 1 is allowed, got ${argKeys.length}`));
     return;
   }
 
